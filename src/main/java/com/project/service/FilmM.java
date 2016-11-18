@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.project.domain.Film;
@@ -50,7 +51,7 @@ public class FilmM implements IFilmM {
 			Sadd_one = connection.prepareStatement("INSERT INTO Film (tytul, dlugosc, il_miejsc, kategoria_id) VALUES (?,?,?,?)");
 			Sdelete_one = connection.prepareStatement("DELETE FROM Film WHERE tytul=?");
 			Sdelete_all = connection.prepareStatement("DELETE FROM Film");
-			Sget_all = connection.prepareStatement("SELECT id, tytyl, dlugosc, il_miejsc, kategoria_id FROM Film");
+			Sget_all = connection.prepareStatement("SELECT id, tytul, dlugosc, il_miejsc, kategoria_id FROM Film");
 			Supdate = connection.prepareStatement("UPDATE Film SET tytul=?, dlugosc=?, il_miejsc=?, kategoria_id=? WHERE tytul=?");
 			Supdate_kategoria = connection.prepareStatement("UPDATE Film SET kategoria_id=? WHERE tytul=?");
 			Sset_kategoria = connection.prepareStatement("UPDATE Film SET kategoria_id=(SELECT id FROM Kategoria WHERE nazwa=?) WHERE tytul=?;");
@@ -65,26 +66,96 @@ public class FilmM implements IFilmM {
 	}
 	@Override
 	public boolean add_film(Film film) {
-		// TODO Auto-generated method stub
-		return false;
+		int count = 0;
+		try {
+			Sadd_one.setString(1, film.getTytul());
+			Sadd_one.setInt(2, film.getDlugosc());
+			Sadd_one.setInt(3, film.getIl_miejsc());
+			Sadd_one.setInt(4, film.getKat_id());
+			
+
+			count = Sadd_one.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(count == 1){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override
 	public boolean add_all_film(List<Film> film) {
-		// TODO Auto-generated method stub
+		try {
+			connection.setAutoCommit(false);
+			
+			for(Film filmy : film){
+				Sadd_one.setString(1, filmy.getTytul());
+				Sadd_one.setInt(2, filmy.getDlugosc());
+				Sadd_one.setInt(3, filmy.getIl_miejsc());
+				Sadd_one.setInt(4, filmy.getKat_id());
+				Sadd_one.executeUpdate();
+			}
+			
+			connection.commit();
+			connection.setAutoCommit(true);
+		} catch (SQLException e) {
+			try {
+
+				connection.rollback();
+				connection.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
 		return false;
 	}
 
 	@Override
 	public List<Film> get_all_film() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Film> film = new ArrayList<Film>();
+
+		try {
+			ResultSet rs = Sget_all.executeQuery();
+
+			while (rs.next()) {
+				Film f = new Film();
+				f.setId(rs.getInt("id"));
+				f.setTytul(rs.getString("tytul"));
+				f.setDlugosc(rs.getInt("dlugosc"));
+				f.setIl_miejsc(rs.getInt("il_miejsc"));
+				f.setKat_id(rs.getInt("kategoria_id"));
+				film.add(f);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return film;
 	}
 
 	@Override
-	public boolean update_film(String sfilm, String nfilm) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update_film(Film sfilm, Film nfilm) {
+		int count = 0;
+		try {
+			//NEW
+			Supdate.setString(1, nfilm.getTytul());
+			Supdate.setInt(2, nfilm.getDlugosc());
+			Supdate.setInt(3, nfilm.getIl_miejsc());
+			Supdate.setInt(4, nfilm.getKat_id());
+			//OLD
+			Supdate.setString(5, sfilm.getTytul());
+
+			count = Supdate.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(count == 1) return true;
+		else return false;
 	}
 
 	@Override
@@ -106,7 +177,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public List<Film> get_all_film_for_kategori(String nazwa) {
+	public List<Film> get_all_film_for_kategoria(String nazwa) {
 		// TODO Auto-generated method stub
 		return null;
 	}

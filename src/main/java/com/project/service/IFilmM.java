@@ -11,11 +11,11 @@ public interface IFilmM {
 		
 	public List<Film> get_all_film();
 	
-	public boolean update_film(String sfilm, String nfilm);
+	public boolean update_film(Film sfilm, Film nfilm);
 
 	public void clear_film();
 	public boolean clear_film(Film film);
 	
 	public void set_kategoria_for_film(Film film, String kategoria_nazwa);
-	public List<Film> get_all_film_for_kategori(String nazwa);
+	public List<Film> get_all_film_for_kategoria(String nazwa);
 }
