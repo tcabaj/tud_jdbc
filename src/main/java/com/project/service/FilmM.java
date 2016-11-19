@@ -24,7 +24,6 @@ public class FilmM implements IFilmM {
 	private PreparedStatement Sdelete_one;
 	private PreparedStatement Sget_all;
 	private PreparedStatement Supdate;
-	private PreparedStatement Supdate_kategoria;
 	private PreparedStatement Sset_kategoria;
 	private PreparedStatement Sget_for_kategoria;
 
@@ -53,7 +52,6 @@ public class FilmM implements IFilmM {
 			Sdelete_all = connection.prepareStatement("DELETE FROM Film");
 			Sget_all = connection.prepareStatement("SELECT id, tytul, dlugosc, il_miejsc, kategoria_id FROM Film");
 			Supdate = connection.prepareStatement("UPDATE Film SET tytul=?, dlugosc=?, il_miejsc=?, kategoria_id=? WHERE tytul=?");
-			Supdate_kategoria = connection.prepareStatement("UPDATE Film SET kategoria_id=? WHERE tytul=?");
 			Sset_kategoria = connection.prepareStatement("UPDATE Film SET kategoria_id=(SELECT id FROM Kategoria WHERE nazwa=?) WHERE tytul=?;");
 			Sget_for_kategoria = connection.prepareStatement("SELECT id, tytul, dlugosc, il_miejsc, kategoria_id FROM Film WHERE kategoria_id = (SELECT id FROM Kategoria WHERE nazwa=?);");
 		} catch (SQLException e) {
@@ -136,6 +134,16 @@ public class FilmM implements IFilmM {
 		}
 		return film;
 	}
+	public int delete_Film(Film film){
+		int count = 0;
+		try{
+			Sdelete_one.setString(1, film.getTytul());
+			count = Sdelete_one.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 	@Override
 	public boolean update_film(Film sfilm, Film nfilm) {
@@ -169,14 +177,26 @@ public class FilmM implements IFilmM {
 
 	@Override
 	public boolean clear_film(Film film) {
-		// TODO Auto-generated method stub
-		return false;
+		int count = 0;
+		try{
+			Sdelete_one.setString(1, film.getTytul());
+			count = Sdelete_one.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(count ==1) return true;
+		else return false;
 	}
 
 	@Override
 	public void set_kategoria_for_film(Film film, String kategoria_nazwa) {
-		// TODO Auto-generated method stub
-		
+		try {
+			Sset_kategoria.setString(1, kategoria_nazwa);
+			Sset_kategoria.setString(2, film.getTytul());
+			System.out.println(Sset_kategoria.executeUpdate());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
