@@ -160,8 +160,11 @@ public class FilmM implements IFilmM {
 
 	@Override
 	public void clear_film() {
-		// TODO Auto-generated method stub
-		
+		try {
+			Sdelete_all.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -178,8 +181,25 @@ public class FilmM implements IFilmM {
 
 	@Override
 	public List<Film> get_all_film_for_kategoria(String nazwa) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Film> film = new ArrayList<Film>();
+		try {
+			Sget_for_kategoria.setString(1, nazwa);
+			ResultSet rs = Sget_for_kategoria.executeQuery();
+			while (rs.next()) {
+				Film f = new Film();
+				f.setTytul(rs.getString("tytul"));
+				f.setDlugosc(rs.getInt("dlugosc"));
+				f.setIl_miejsc(rs.getInt("il_miejsc"));
+				f.setKat_id(rs.getInt("Kategoria_id"));
+				film.add(f);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return film;
 	}
+	
+	
 	
 }
