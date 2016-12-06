@@ -6,16 +6,16 @@ import com.project.domain.Film;
 
 public interface IFilmM {
 	
-	public boolean add_film(Film film);	
-	public boolean add_all_film(List<Film> film);
+	public boolean addFilm(Film film);	
+	public boolean addAllFilm(List<Film> film);
 		
-	public List<Film> get_all_film();
+	public List<Film> getAllFilm();
 	
-	public boolean update_film(Film sfilm, Film nfilm);
+	public boolean updateFilm(Film sfilm, Film nfilm);
 
-	public void clear_film();
-	public boolean clear_film(Film film);
+	public void clearFilm();
+	public boolean clearFilm(Film film);
 	
-	public void set_kategoria_for_film(Film film, String kategoria_nazwa);
-	public List<Film> get_all_film_for_kategoria(String nazwa);
+	public void setKategoriaForFilm(Film film, String kategoria_nazwa);
+	public List<Film> getAllFilmForKategoria(String nazwa);
 }

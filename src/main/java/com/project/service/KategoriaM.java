@@ -59,7 +59,7 @@ public class KategoriaM implements IKategoriaM {
 	public Connection getConnection() {
 		return connection;
 	}
-	public int delete_kategoria(Kategoria kategoria){
+	public int deleteKategoria(Kategoria kategoria){
 		int count = 0;
 		try{
 			Sdelete_one.setString(1, kategoria.getNazwa());
@@ -70,7 +70,7 @@ public class KategoriaM implements IKategoriaM {
 		return count;
 	}
 	@Override
-	public void clear_kategoria() {
+	public void clearKategoria() {
 		try {
 			
 			Sdelete_all.executeUpdate();
@@ -80,7 +80,7 @@ public class KategoriaM implements IKategoriaM {
 		}
 	}
 	@Override
-	public boolean add_kategoria(Kategoria kategoria) {
+	public boolean addKategoria(Kategoria kategoria) {
 		int count = 0;
 		try {
 			Sadd_kategoria.setString(1, kategoria.getNazwa());
@@ -94,7 +94,7 @@ public class KategoriaM implements IKategoriaM {
 		else return false;
 	}
 	@Override
-	public List<Kategoria> get_all_kategorie() {
+	public List<Kategoria> getAllKategorie() {
 		List<Kategoria> kategoria = new ArrayList<Kategoria>();
 
 		try {
@@ -113,7 +113,7 @@ public class KategoriaM implements IKategoriaM {
 		return kategoria;
 	}
 	@Override
-	public boolean update_kategoria(String nazwa, String nnazwa) {
+	public boolean updateKategoria(String nazwa, String nnazwa) {
 		int count = 0;
 		try {
 			Supdate.setString(2, nazwa);
@@ -128,7 +128,7 @@ public class KategoriaM implements IKategoriaM {
 		else return false;
 	}
 	@Override
-	public boolean add_all_kategoria(List<Kategoria> kategoria) {
+	public boolean addAllKategoria(List<Kategoria> kategoria) {
 		try {
 			connection.setAutoCommit(false);
 			
@@ -149,7 +149,7 @@ public class KategoriaM implements IKategoriaM {
 		return false;
 	}
 	@Override
-	public int select_id_from_kategoria(String nazwa) {
+	public int selectIdFromKategoria(String nazwa) {
 		int output = -1;
 		try {
 			Sselect_id.setString(1, nazwa);

@@ -24,7 +24,7 @@ public class KategoriaMTest {
 	
 	@Before
 	public void clear_database(){
-		KategoriaManager.clear_kategoria();
+		KategoriaManager.clearKategoria();
 	}
 	@Test
 	public void test_connection(){
@@ -33,18 +33,18 @@ public class KategoriaMTest {
 	@Test
 	public void test_add_one(){
 		Kategoria kategoria = new Kategoria(NAME_1);
-		assertEquals(true,KategoriaManager.add_kategoria(kategoria));
-		List<Kategoria> kategorie = KategoriaManager.get_all_kategorie();
+		assertEquals(true,KategoriaManager.addKategoria(kategoria));
+		List<Kategoria> kategorie = KategoriaManager.getAllKategorie();
 		Kategoria KategoriaPom= kategorie.get(0);
 		assertEquals(NAME_1, KategoriaPom.getNazwa());
 	}
 	@Test
 	public void test_delete_one(){
-		KategoriaManager.clear_kategoria();
+		KategoriaManager.clearKategoria();
 		Kategoria kategoria = new Kategoria(NAME_2);
-		KategoriaManager.add_kategoria(kategoria);
+		KategoriaManager.addKategoria(kategoria);
 		
-		assertEquals(1,((KategoriaM)KategoriaManager).delete_kategoria(kategoria));		
+		assertEquals(1,((KategoriaM)KategoriaManager).deleteKategoria(kategoria));		
 	}
 	@Test
 	public void test_add_all(){
@@ -56,9 +56,9 @@ public class KategoriaMTest {
 		good.add(k2);
 		good.add(k3);
 	
-		KategoriaManager.clear_kategoria();
-		KategoriaManager.add_all_kategoria(good);
-		List<Kategoria> all = KategoriaManager.get_all_kategorie();
+		KategoriaManager.clearKategoria();
+		KategoriaManager.addAllKategoria(good);
+		List<Kategoria> all = KategoriaManager.getAllKategorie();
 		assertEquals(3, all.size());
 		
 		// add all bad 
@@ -70,9 +70,9 @@ public class KategoriaMTest {
 		bad.add(b2);
 		bad.add(b3);
 		
-		KategoriaManager.clear_kategoria();		
-		KategoriaManager.add_all_kategoria(bad);		
-		List<Kategoria> all_bad = KategoriaManager.get_all_kategorie();
+		KategoriaManager.clearKategoria();		
+		KategoriaManager.addAllKategoria(bad);		
+		List<Kategoria> all_bad = KategoriaManager.getAllKategorie();
 		assertEquals(0, all_bad.size());
 	}
 	@Test
@@ -85,34 +85,34 @@ public class KategoriaMTest {
 		good.add(k1);
 		good.add(k2);
 		good.add(k3);		
-		KategoriaManager.clear_kategoria();		
-		KategoriaManager.add_all_kategoria(good);
+		KategoriaManager.clearKategoria();		
+		KategoriaManager.addAllKategoria(good);
 		
 		//Delete : 
-		((KategoriaM)KategoriaManager).clear_kategoria();
-		List<Kategoria> kategoria = KategoriaManager.get_all_kategorie();
+		((KategoriaM)KategoriaManager).clearKategoria();
+		List<Kategoria> kategoria = KategoriaManager.getAllKategorie();
 		assertEquals(0, kategoria.size());
 	}
 	@Test
 	public void test_update(){
-		KategoriaManager.clear_kategoria();
+		KategoriaManager.clearKategoria();
 		Kategoria kategoria = new Kategoria(NAME_1);
-		KategoriaManager.add_kategoria(kategoria);	
-		assertEquals(true, KategoriaManager.update_kategoria(kategoria.getNazwa(), "Kategoria"));
+		KategoriaManager.addKategoria(kategoria);	
+		assertEquals(true, KategoriaManager.updateKategoria(kategoria.getNazwa(), "Kategoria"));
 	}
 	@Test
 	public void test_film_for_kategoria(){
 		FilmM fm = new FilmM();
-		KategoriaManager.add_kategoria(new Kategoria("Horror"));
+		KategoriaManager.addKategoria(new Kategoria("Horror"));
 		
-		int kategoria_id = KategoriaManager.select_id_from_kategoria("Horror");
+		int kategoria_id = KategoriaManager.selectIdFromKategoria("Horror");
 		
-		fm.add_film(new Film("Piła1", 211,100,kategoria_id));
-		fm.add_film(new Film("Piła2", 222,100,kategoria_id));
+		fm.addFilm(new Film("Piła1", 211,100,kategoria_id));
+		fm.addFilm(new Film("Piła2", 222,100,kategoria_id));
 		
-		List<Film> film = fm.get_all_film_for_kategoria("Horror");
+		List<Film> film = fm.getAllFilmForKategoria("Horror");
 		assertEquals(2, film.size());
-		fm.clear_film();
+		fm.clearFilm();
 	}
 	
 	

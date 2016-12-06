@@ -63,7 +63,7 @@ public class FilmM implements IFilmM {
 		return connection;
 	}
 	@Override
-	public boolean add_film(Film film) {
+	public boolean addFilm(Film film) {
 		int count = 0;
 		try {
 			Sadd_one.setString(1, film.getTytul());
@@ -85,7 +85,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public boolean add_all_film(List<Film> film) {
+	public boolean addAllFilm(List<Film> film) {
 		try {
 			connection.setAutoCommit(false);
 			
@@ -113,7 +113,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public List<Film> get_all_film() {
+	public List<Film> getAllFilm() {
 		List<Film> film = new ArrayList<Film>();
 
 		try {
@@ -134,7 +134,7 @@ public class FilmM implements IFilmM {
 		}
 		return film;
 	}
-	public int delete_Film(Film film){
+	public int deleteFilm(Film film){
 		int count = 0;
 		try{
 			Sdelete_one.setString(1, film.getTytul());
@@ -146,7 +146,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public boolean update_film(Film sfilm, Film nfilm) {
+	public boolean updateFilm(Film sfilm, Film nfilm) {
 		int count = 0;
 		try {
 			//NEW
@@ -167,7 +167,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public void clear_film() {
+	public void clearFilm() {
 		try {
 			Sdelete_all.executeUpdate();
 		} catch (SQLException e) {
@@ -176,7 +176,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public boolean clear_film(Film film) {
+	public boolean clearFilm(Film film) {
 		int count = 0;
 		try{
 			Sdelete_one.setString(1, film.getTytul());
@@ -189,7 +189,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public void set_kategoria_for_film(Film film, String kategoria_nazwa) {
+	public void setKategoriaForFilm(Film film, String kategoria_nazwa) {
 		try {
 			Sset_kategoria.setString(1, kategoria_nazwa);
 			Sset_kategoria.setString(2, film.getTytul());
@@ -200,7 +200,7 @@ public class FilmM implements IFilmM {
 	}
 
 	@Override
-	public List<Film> get_all_film_for_kategoria(String nazwa) {
+	public List<Film> getAllFilmForKategoria(String nazwa) {
 		
 		List<Film> film = new ArrayList<Film>();
 		try {
